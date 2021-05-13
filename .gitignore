@@ -30,7 +30,6 @@
 
 # Executables
 src/KGChess
-*.exe
 *.out
 *.app
 *.i*86

@@ -1,17 +1,17 @@
 # KGChess 
-# Version 1.0
+## Version 1.0
 
 A chess game coded in C
 
 Please see INSTALL.md for installation instructions.
 
-# Features
+### Features
 * Human vs. Human, Human vs. AI, AI vs. AI
 * Chess board implementation
 * Piece rules including special moves (Promotion, castling, en passant)
 * Check, checkmate, & stalemate condition checking
 * Takeback moves
-* Ability to store game log in a .txt file
+* Ability to store and view game log text file
 
 ### Commands
 #### Compile game executable

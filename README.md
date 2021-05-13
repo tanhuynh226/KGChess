@@ -1,5 +1,5 @@
 # KGChess 
-# Version v1.0
+# Version 1.0
 
 A chess game coded in C
 
@@ -18,10 +18,6 @@ Please see INSTALL.md for installation instructions.
     make all
 #### Run KGChess
     bin/KGChess
-#### Compile pieceTest executable
-    make test
-#### Run pieceTest
-    src/pieceTest
 #### Test with Valgrind
     make memorytest
 #### Clean object, library, & executable files

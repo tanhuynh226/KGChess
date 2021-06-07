@@ -7,47 +7,8 @@
 #include "Board.h"
 #include "Move.h"
 #include "MoveLog.h"
+#include "Client.h"
 
-//User Input
-void My_User_Input_Game(int count, char uInpt[5]){
-	if(count % 2 == 0)
-		printf("\n(White's Turn) Please enter your move: ");
-	else
-		printf("\n(Black's Turn) Please enter your move: ");
-	scanf("%s", uInpt);
-}
-// Function that sets conditions for types of wins 
-void printWin(int win){
-	if(win == 1)
-		printf("\nCheck for white!\n\n");
-	else if(win == 2)
-		printf("\nCheck for black!\n\n");
-	else if(win == 3)
-		printf("\nCheckmate! White wins!\n\n");
-	else if(win == 4)
-		printf("\nCheckmate! Black wins!\n\n");
-	else if (win == 5)
-		printf("\nStalemate!\n\n");
-}
-
-int Exit_Undo(char uInpt[5],int count, int Board[8][8], MLIST *Move_List){
-	char exitInpt[5];							// Char input of user 
-	char undoInpt[5];							// char input of user 
-	strcpy(exitInpt, "exit");
-	strcpy(undoInpt, "undo");
-
-	if (strcmp(uInpt, exitInpt) == 0){				//if user input == "exit" exits game
-		printf("Exiting KGChess...\n");
-		DeleteMoveList(Move_List);
-		exit(0);
-	}
-	else if (count != 0 && strcmp(uInpt, undoInpt) == 0){       //if input is valid performs take back move 
-		printf("Performing takeback move...\n");
-		Takeback(Board, Move_List);
-		return -1;
-	} else
-		return IdentityDetect(Board, uInpt, 1);
-}
 
 //Human V. Human function
 MLIST *Human_Vs_Human(int Board[8][8]){
@@ -144,7 +105,6 @@ MLIST *Human_Vs_Human(int Board[8][8]){
 		// Check win/tie condition of the board
 		if (MoveList->Length > 2) {
 			win = winCon(Board, MoveList, count);
-			printf("CheckStatus: %d\n", win);
 		}
 		
 		printWin(win);
@@ -171,7 +131,7 @@ MLIST *Human_Vs_AI(int Board[8][8], int color){
 	while(win != 3 || win != 4 || win != 5){
 		do{
 			//Initialize the beginning for first turn when Player is Black
-			if(color == 2 && count % 2 == 0){
+			if((color == 2 && count % 2 == 0) || (color == 1 && count % 2 == 1)){
 				win = AI(Board, color, MoveList);
 				count++;
 			}
@@ -186,7 +146,7 @@ MLIST *Human_Vs_AI(int Board[8][8], int color){
 			for (int i = 0; i < 2; i++){
 				if(uInpt[0] == 'u' && count == 0){
 					printf("\nInvalid use of \"undo\" (Not enough turns done)\n");
-				break;
+					break;
 				}
 				Identity = Exit_Undo(uInpt, count, Board, MoveList);
 			}
@@ -264,8 +224,8 @@ MLIST *Human_Vs_AI(int Board[8][8], int color){
 
 		win = AI(Board, color, MoveList);
 		
-		if (color == 1) // Offset for if player is white
-			count++;
+		//if (color == 1) // Offset for if player is white
+			//count++;
 	}
 	print_fun(Board);
 	if(win == 3)
@@ -315,7 +275,7 @@ MLIST *AI_Vs_AI(int Board[8][8]){
 }
 
 // Main Program for KGChess
-int main()
+int main(int argc, char *argv[])
 {
 	int option = 0;
 	printf("Welcome to KGChess!\n");
@@ -338,20 +298,25 @@ int main()
 			};
 		
 		printf("Please make a selection\n");
-		printf("1. Human vs. Human\n");
-		printf("2. Human vs. AI\n");
-		printf("3. AI vs. AI\n");
-		printf("4. View most recent game's move log\n");
-		printf("5. Exit Game\n");
+		printf("1. Human vs. Human (Local)\n");
+		printf("2. Human vs. Human (Online)\n");
+		printf("3. Human vs. AI\n");
+		printf("4. AI vs. AI\n");
+		printf("5. View most recent game's move log\n");
+		printf("6. Exit Game\n");
 		printf("Choose option: ");
 		scanf("%d", &option);
+		while((getchar()) != '\n');
 		
 		switch(option)
 		{
 			case 1:
 				Human_Vs_Human(Board);
 				break;
-			case 2: //human v ai
+			case 2:
+				client(argc, argv, Board);
+				break;
+			case 3: 
 				while(1)
 				{
 					int color;
@@ -377,16 +342,16 @@ int main()
 					}
 				}
                 break;
-			case 3:
+			case 4:
 				AI_Vs_AI(Board);
 				break;
-			case 4:
+			case 5:
 			    printf("Enter the file name: ");
 				scanf("%s", fname);
 				strcat(fname, ftype);
 				MoveLog(fname);
 				break;
-			case 5:
+			case 6:
 				printf("Thanks for playing. Exiting game...\n");
 				done=1;
 				break;

@@ -17,7 +17,7 @@ void Print2File(MLIST *l, int winner)
   scanf("%d", &option);
   if (option == 1) {
     char fLog[26] = "./bin/";
-    char fName[20];
+    char fName[20]; // name of the txt file
     char fType[] = ".txt";
     printf("Enter a name for the move log text file (up to 20 characters): ");
     scanf("%s", fName);

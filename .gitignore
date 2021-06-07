@@ -30,6 +30,8 @@
 
 # Executables
 src/KGChess
+src/Server
+*.exe
 *.out
 *.app
 *.i*86
@@ -51,8 +53,8 @@ Module.symvers
 Mkfile.old
 dkms.conf
 
-#Others
+#Others .. others
 src/.vscode/
 .vscode/
 wincon.md
-*.txt
+src/*.txt

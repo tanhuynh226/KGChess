@@ -9,7 +9,7 @@ LFLAGS = -Wall
 INCLUDE = -I src -c
 
 # convenience targets
-all: bin/KGChess
+all: bin/KGChess bin/Server
 
 clean:
 	rm -f bin/KGChess
@@ -43,6 +43,8 @@ bin/AI.o: src/AI.c src/AI.h
 	$(CC) $(CFLAGS) $(INCLUDE) src/AI.c -o bin/AI.o
 bin/Board.o: src/Board.c src/Board.h
 	$(CC) $(CFLAGS) $(INCLUDE) src/Board.c -o bin/Board.o
+bin/Client.o: src/Client.c src/Client.h
+	$(CC) $(CFLAGS) $(INCLUDE) src/Client.c -o bin/Client.o
 bin/Move.o: src/Move.c src/Move.h
 	$(CC) $(CFLAGS) $(INCLUDE) src/Move.c -o bin/Move.o
 bin/MoveList.o: src/MoveList.c src/MoveList.h
@@ -55,6 +57,10 @@ libmove: bin/Move.o bin/MoveList.o bin/MoveLog.o
 bin/KGChess.o: src/KGChess.c
 	$(CC) $(CFLAGS) $(INCLUDE) src/KGChess.c -o bin/KGChess.o
 
+# compilation rules for server
+bin/Server: src/Server.c
+	$(CC) $(LFLAGS) src/Server.c -o bin/Server
+
 # Generate executable
-bin/KGChess: bin/AI.o bin/Board.o libmove bin/KGChess.o
-	$(CC) $(LFLAGS) bin/AI.o bin/Board.o bin/KGChess.o -L. -lmove -lm -o bin/KGChess
+bin/KGChess: bin/AI.o bin/Board.o bin/Client.o libmove bin/KGChess.o
+	$(CC) $(LFLAGS) bin/AI.o bin/Board.o bin/Client.o bin/KGChess.o -L. -lmove -lm -o bin/KGChess

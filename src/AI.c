@@ -1,4 +1,12 @@
 /*  AI.c   */
+// changes 5/6/21
+// 1. Changed row from char to int since row is a int in board.c and  printf is whjat represents the letters
+// 2. changed instances of chars to i to match int col;
+// 3. Changed init positions to 12 and  int random_number = rand() % 12; since pawn counts as one unique piece 
+
+//changes 5/7/21
+//changes ascii from 0 to 1
+// Ai works now :)
 
 #include "AI.h"
 #include "Move.h"
